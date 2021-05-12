@@ -56,46 +56,53 @@ const NavbarComponent = () => {
                         {
                             user !== null ?
                                 <>
-                                <li className="nav-item">
-                                    <Link to="/followings"
-                                          className={`nav-link ${pathName === '/followings' ? 'active' : ''}`}>
-                                        <i className="fa fa-group"></i> People you follow
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/myposts"
-                                          className={`nav-link ${pathName === '/myposts' ? 'active' : ''}`}>
-                                        <i className="fa fa-newspaper-o"></i> My posts
-                                    </Link>
-                                </li>
-                                </>: ''
+                                    <li className="nav-item">
+                                        <Link to="/followings"
+                                              className={`nav-link ${pathName === '/followings' ? 'active' : ''}`}>
+                                            <i className="fa fa-group"></i> People you follow
+                                        </Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link to="/myposts"
+                                              className={`nav-link ${pathName === '/myposts' ? 'active' : ''}`}>
+                                            <i className="fa fa-newspaper-o"></i> My posts
+                                        </Link>
+                                    </li>
+                                </> : ''
                         }
                         {
                             user !== null ?
-                                <li className="nav-item">
-                                    <Link to="/posts/create"
-                                          className={`nav-link ${pathName === '/posts/create' ? 'active' : ''}`}>
-                                        <i className="fa fa-plus-circle"></i> New Post
-                                    </Link>
-                                </li> : ''
+                                <>
+                                    <li className="nav-item">
+                                        <Link to="/posts/create"
+                                              className={`nav-link ${pathName === '/posts/create' ? 'active' : ''}`}>
+                                            <i className="fa fa-plus-circle"></i> New Post
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <div className="navbar-text">
+                                            <Link to={"/"} className="search-btn">
+                                                <i className="icon-search-1"></i>
+                                            </Link>
+                                        </div>
+                                    </li>
+                                </>
+                                : ''
                         }
-                        <li>
-                            <div className="navbar-text">
-                                <Link to={"/"} className="search-btn">
-                                    <i className="icon-search-1"></i>
-                                </Link>
-                            </div>
-                        </li>
+
+
                         {
                             user !== null ?
                                 <span className="d-md-flex">
                                     <li className="nav-item">
-                                        <Link to="/profile" className={`nav-link ${pathName === '/profile' ? 'active' : ''}`}>
+                                        <Link to="/profile"
+                                              className={`nav-link ${pathName === '/profile' ? 'active' : ''}`}>
                                            <i className="fa fa-user"></i> Profile
                                         </Link>
                                     </li>
                                     <li className="nav-item">
-                                        <a href='#' className="nav-link" onClick={handleLogout}>Logout <i className="fa fa-sign-out"></i></a>
+                                        <a href='#' className="nav-link" onClick={handleLogout}>Logout <i
+                                            className="fa fa-sign-out"></i></a>
                                     </li>
                                 </span>
 
