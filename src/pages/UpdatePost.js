@@ -53,7 +53,7 @@ const UpdatePost = () => {
                         setImage("");
                         setPreview("");
                         e.target.reset()
-                        notify("💥 Post created successfully", 'success', history, '/myposts');
+                        notify("💥 Post updated successfully", 'success', history, '/myposts');
                     } else {
                         setLoading(false);
                         notify("💥 Error updating post, please try again later", 'error');
