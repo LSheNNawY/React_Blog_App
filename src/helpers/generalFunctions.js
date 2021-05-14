@@ -1,4 +1,5 @@
 import React from "react";
+import {toast} from "react-toastify";
 
 export const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -15,4 +16,26 @@ export const formatTags = (data) => {
         })
     }
 }
+
+
+export const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+
+export const notify = (message, type, history = null, to = null) => toast(message, {
+    onClose: () => history? history.push(to) : '',
+    type: type === 'success' ? toast.TYPE.SUCCESS : toast.TYPE.ERROR,
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+})
+
+
 

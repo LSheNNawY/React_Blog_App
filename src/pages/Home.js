@@ -1,6 +1,5 @@
 import React from 'react';
 import FooterComponent from "../components/FooterComponent";
-import AsideComponent from "../components/AsideComponent";
 import NavbarComponent from "../components/NavbarComponent";
 import PostsListComponent from "../components/PostsListComponent";
 
@@ -11,7 +10,6 @@ const Home = () => {
             <div className="container">
                 <div className="row">
                     <PostsListComponent/>
-                    {/*<AsideComponent/>*/}
                 </div>
             </div>
             <FooterComponent/>

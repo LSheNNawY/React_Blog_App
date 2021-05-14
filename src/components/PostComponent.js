@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {formatDate, formatTags} from "../helpers/generalFunctions";
 import {Link} from "react-router-dom";
 

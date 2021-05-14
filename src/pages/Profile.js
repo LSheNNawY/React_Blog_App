@@ -19,7 +19,6 @@ const getUserData = async () => {
 const Profile = () => {
     const history = useHistory();
     const [user, setUser] = useState({});
-    const [profileData, setProfileData] = useState({});
 
     const getPosts = () => {
         if (user.posts) {

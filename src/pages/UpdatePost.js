@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {ToastContainer, toast} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {Link, useHistory, useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import NavbarComponent from "../components/NavbarComponent";
 import FooterComponent from "../components/FooterComponent";
 import {addNewPostValidation} from "../helpers/formValidation"
+import {toBase64, notify} from "../helpers/generalFunctions";
 
 const updatePostAjax = async (postData, slug) => {
     const data = await (await fetch(`${process.env.REACT_APP_API_URL}/posts/${slug}`, {
@@ -31,42 +32,20 @@ const UpdatePost = () => {
         const [loading, setLoading] = useState(false);
         const [successMsg, setSuccessMsg] = useState(false);
 
-        const notify = (message, type) => toast(message, {
-            onClose: () => history.push('/myposts'),
-            type: type === 'success' ? toast.TYPE.SUCCESS : toast.TYPE.ERROR,
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
-
-
         const handleSubmit = async (e) => {
             e.preventDefault();
 
-            const data = {title, body, tags, id}
+            const data = {title, body, tags, id};
 
-            if (addNewPostValidation(setErrors, title, body, tags, image)) {
+            if (addNewPostValidation(setErrors, title, body, tags, image, "update")) {
                 setLoading(true);
-
                 try {
-                    if (image) {
-                        const toBase64 = file => new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result);
-                            reader.onerror = error => reject(error);
-                        });
+                    if (image)
+                        data.image = await toBase64(image);
 
-                        data.image = await toBase64(image)
-                    }
-
-                    setLoading(false)
                     const postData = await updatePostAjax(data, slug);
                     if (postData._id || postData.n > 0) {
+                        setLoading(false);
                         setSuccessMsg(true);
                         setTitle("");
                         setBody("");
@@ -74,22 +53,22 @@ const UpdatePost = () => {
                         setImage("");
                         setPreview("");
                         e.target.reset()
-                        notify("💥 Post created successfully", 'success');
-
+                        notify("💥 Post created successfully", 'success', history, '/myposts');
+                    } else {
+                        setLoading(false);
+                        notify("💥 Error updating post, please try again later", 'error');
                     }
                 } catch (err) {
+                    setLoading(false);
                     setSuccessMsg(true)
                     notify("💥 Error updating post, please try again later", 'error');
                 }
-            } else {
-                console.log(errors)
             }
         }
 
         useEffect(() => {
             const userData = JSON.parse(window.localStorage.getItem('user'));
             if (userData) {
-                // setUser(userData);
                 fetch(`${process.env.REACT_APP_API_URL}/posts/${slug}`, {
                     method: 'GET',
                     credentials: 'include',
@@ -110,10 +89,8 @@ const UpdatePost = () => {
                     }).catch(err => {
                     console.log(err)
                 })
-            } else {
+            } else
                 history.push("/");
-            }
-
 
         }, [])
 
@@ -143,7 +120,7 @@ const UpdatePost = () => {
                                     <div className="input-group col-lg-12 mb-4">
                                     <textarea id="body" type="text" name="body" placeholder="Post Body" value={body}
                                               onChange={(e) => setBody(e.target.value)}
-                                              className={`form-control bg-white border-md ${errors.title && errors.body !== '' && errors.body !== 'valid' ? 'is-invalid' : ''}`}>
+                                              className={`form-control bg-white border-md ${errors.body && errors.body !== '' && errors.body !== 'valid' ? 'is-invalid' : ''}`}>
                                     </textarea>
                                         {errors.body !== '' && errors.body !== 'valid' ?
                                             <h6 className='invalid-feedback'>{errors.body}</h6> : null}
@@ -152,8 +129,8 @@ const UpdatePost = () => {
                                     <div className="input-group col-lg-12 mb-4">
                                         <input id="tags" type="text" name="tags" placeholder="Post Tags" value={tags}
                                                onChange={(e) => setTags(e.target.value)}
-                                               className={`form-control bg-white border-md ${errors.title && errors.tags !== '' && errors.tags !== 'valid' ? 'is-invalid' : ''}`}/>
-                                        {errors.body !== '' && errors.body !== 'valid' ?
+                                               className={`form-control bg-white border-md ${errors.tags && errors.tags !== '' && errors.tags !== 'valid' ? 'is-invalid' : ''}`}/>
+                                        {errors.tags !== '' && errors.tags !== 'valid' ?
                                             <h6 className='invalid-feedback'>{errors.tags}</h6> : null}
                                     </div>
 
@@ -166,11 +143,10 @@ const UpdatePost = () => {
                                                    setPreview(URL.createObjectURL(e.target.files[0]))
                                                }}
                                         />
-
                                     </div>
                                     {image !== '' ?
                                         < div className="col-lg-12 mb-4">
-                                            < img src={preview} className="img-thumbnail" alt="image"/>
+                                            < img src={preview} className="img-thumbnail" alt=""/>
                                         </div> : ''
                                     }
 

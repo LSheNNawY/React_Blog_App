@@ -21,7 +21,6 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({email: '', password: ''});
     const [loading, setLoading] = useState(false)
-    const [user, setUser] = useState({})
     const [loggingError, setLoggingError] = useState('')
     const history = useHistory();
 
@@ -33,7 +32,6 @@ const Login = () => {
                 const userData = await ajaxLogin(email, password)
                 setLoading(false)
                 if (userData.userId) {
-                    setUser(userData)
                     const expirationTime = new Date().getTime() + parseInt(process.env.REACT_APP_LOCAL_STORAGE_TTL)
                     localStorage.setItem('user', JSON.stringify({
                         "userId": userData.userId,
@@ -48,7 +46,7 @@ const Login = () => {
                 }
 
             } catch (err) {
-                console.log(err)
+                setLoading(false);
             }
         }
     }
@@ -70,7 +68,7 @@ const Login = () => {
 
                     <div className="col-md-7 col-lg-6 ml-auto">
                         {loggingError ? <h6 className="text-danger pb-3">{loggingError}</h6> : ''}
-                        <form action="#">
+                        <form action="#" onSubmit={handleLogin}>
                             <div className="row">
                                 <div className="input-group col-lg-12 mb-4">
                                     <div className="input-group-prepend">
@@ -104,7 +102,7 @@ const Login = () => {
                                 </div>
 
                                 <div className="form-group col-lg-12 mx-auto mb-0">
-                                    <a href="#" onClick={(e) => handleLogin(e)}
+                                    <button onClick={(e) => handleLogin(e)}
                                        className='btn btn-primary btn-block py-2'>
                                         {
                                             loading ? <>
@@ -114,7 +112,7 @@ const Login = () => {
                                                 <span className="font-weight-bold text-white">Login</span>
                                         }
 
-                                    </a>
+                                    </button>
                                 </div>
 
 

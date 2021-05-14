@@ -48,7 +48,7 @@ const authFormValidation = (setErrors, email, password, firstName = undefined, l
     return errors.email === 'valid' && errors.password === 'valid' && errors.firstName === 'valid' && errors.lastName === 'valid' && errors.gender === 'valid';
 }
 
-const addNewPostValidation = (setErrors, title, body, tags, image) => {
+const addNewPostValidation = (setErrors, title, body, tags, image, type) => {
     let errors = {};
 
     if (title === '')
@@ -71,15 +71,17 @@ const addNewPostValidation = (setErrors, title, body, tags, image) => {
     else
         errors.tags = 'valid';
 
-    // if (image === '')
-    //     errors.image = 'Post image is required';
-    // else
-    //     errors.image = 'valid'
+    if (type === "new") {
+        if (image === '')
+            errors.image = 'Post image is required';
+        else
+            errors.image = 'valid'
+    } else
+        errors.image = 'valid'
 
     setErrors(errors);
 
-
-    return errors.title === 'valid' && errors.body === 'valid' && errors.tags === 'valid';
+    return errors.title === 'valid' && errors.body === 'valid' && errors.tags === 'valid' && errors.image === 'valid';
 
 }
 

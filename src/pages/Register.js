@@ -44,7 +44,7 @@ const Register = () => {
                 }
 
             } catch (err) {
-                console.log(err)
+                setLoading(false);
             }
         }
 
@@ -69,7 +69,7 @@ const Register = () => {
 
                     <div className="col-md-7 col-lg-6 ml-auto">
                         {serverError ? <h5 className='text-danger mb-5'>Server Error, please try again later</h5> : ''}
-                        <form action="#">
+                        <form action="#" onSubmit={handleRegister}>
                             <div className="row">
 
                                 <div className="input-group col-lg-12 mb-4">
@@ -154,7 +154,7 @@ const Register = () => {
                                 </div>
 
                                 <div className="form-group col-lg-12 mx-auto mb-0">
-                                    <a href="#" className="btn btn-primary btn-block py-2" onClick={handleRegister}>
+                                    <button className="btn btn-primary btn-block py-2" onClick={handleRegister}>
                                         {
                                             loading ? <>
                                                     <span className="spinner-border spinner-border-sm m-1"></span>
@@ -162,7 +162,7 @@ const Register = () => {
                                                 </> :
                                                 <span className="font-weight-bold text-white">Create your account</span>
                                         }
-                                    </a>
+                                    </button>
                                 </div>
 
                                 <div className="form-group col-lg-12 mx-auto d-flex align-items-center my-4">

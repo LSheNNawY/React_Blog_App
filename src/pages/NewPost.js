@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {ToastContainer, toast} from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useHistory} from "react-router-dom";
 import NavbarComponent from "../components/NavbarComponent";
 import FooterComponent from "../components/FooterComponent";
 import {addNewPostValidation} from "../helpers/formValidation"
+import {toBase64, notify} from "../helpers/generalFunctions";
 
 const addNewPostAjax = async postData => {
     const data = await (await fetch(`${process.env.REACT_APP_API_URL}/posts`, {
@@ -20,7 +21,6 @@ const addNewPostAjax = async postData => {
 
 const NewPost = () => {
         const history = useHistory();
-        const [user, setUser] = useState({});
         const [title, setTitle] = useState('');
         const [body, setBody] = useState('');
         const [tags, setTags] = useState('');
@@ -30,42 +30,21 @@ const NewPost = () => {
         const [loading, setLoading] = useState(false);
         const [successMsg, setSuccessMessage] = useState(false);
 
-        const notify = (message, type) => toast(message, {
-            type: type === 'success' ? toast.TYPE.SUCCESS : toast.TYPE.ERROR,
-            position: "top-right",
-            autoClose: 2000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
-
 
         const handleSubmit = async (e) => {
             e.preventDefault();
 
-            if (addNewPostValidation(setErrors, title, body, tags, image)) {
+            if (addNewPostValidation(setErrors, title, body, tags, image, "new")) {
                 setLoading(true);
-
                 const data = {title, body, tags,}
 
-
                 try {
-                    if (image) {
-                        const toBase64 = file => new Promise((resolve, reject) => {
-                            const reader = new FileReader();
-                            reader.readAsDataURL(file);
-                            reader.onload = () => resolve(reader.result);
-                            reader.onerror = error => reject(error);
-                        });
-
+                    if (image)
                         data.image = await toBase64(image)
-                    }
 
-                    setLoading(false)
                     const postData = await addNewPostAjax(data);
                     if (postData._id) {
+                        setLoading(false)
                         setSuccessMessage(true);
                         setTitle("");
                         setBody("");
@@ -74,21 +53,19 @@ const NewPost = () => {
                         setPreview("");
                         e.target.reset()
                         notify("💥 Post created successfully", 'success');
-                    }
+                    } else
+                        setLoading(false)
+
                 } catch (err) {
+                    setLoading(false);
                     notify("💥 Error creating post, please try again later", 'error');
                 }
-            } else {
-                setSuccessMessage(false)
-                console.log(errors)
             }
         }
 
         useEffect(() => {
             const userData = JSON.parse(window.localStorage.getItem('user'));
-            if (userData) {
-                setUser(userData);
-            } else {
+            if (!userData) {
                 history.push("/");
             }
         }, [])
@@ -119,7 +96,7 @@ const NewPost = () => {
                                     <div className="input-group col-lg-12 mb-4">
                                     <textarea id="body" type="text" name="body" placeholder="Post Body"
                                               onChange={(e) => setBody(e.target.value)}
-                                              className={`form-control bg-white border-md ${errors.title && errors.body !== '' && errors.body !== 'valid' ? 'is-invalid' : ''}`}>
+                                              className={`form-control bg-white border-md ${errors.body && errors.body !== '' && errors.body !== 'valid' ? 'is-invalid' : ''}`}>
                                     </textarea>
                                         {errors.body !== '' && errors.body !== 'valid' ?
                                             <h6 className='invalid-feedback'>{errors.body}</h6> : null}
@@ -128,24 +105,26 @@ const NewPost = () => {
                                     <div className="input-group col-lg-12 mb-4">
                                         <input id="tags" type="text" name="tags" placeholder="Post Tags"
                                                onChange={(e) => setTags(e.target.value)}
-                                               className={`form-control bg-white border-md ${errors.title && errors.tags !== '' && errors.tags !== 'valid' ? 'is-invalid' : ''}`}/>
-                                        {errors.body !== '' && errors.body !== 'valid' ?
+                                               className={`form-control bg-white border-md ${errors.tags && errors.tags !== '' && errors.tags !== 'valid' ? 'is-invalid' : ''}`}/>
+                                        {errors.tags !== '' && errors.tags !== 'valid' ?
                                             <h6 className='invalid-feedback'>{errors.tags}</h6> : null}
                                     </div>
 
                                     <div className="input-group col-lg-12 mb-4">
                                         <input id="image" type="file" name="image"
                                                accept=".png, .jpg, .jpeg"
-                                               className={`form-control border-md pb-5`}
+                                               className={`form-control border-md pb-5 ${errors.image && errors.image !== '' && errors.image !== 'valid' ? 'is-invalid' : ''}`}
                                                onChange={(e) => {
                                                    setImage(e.target.files[0])
                                                    setPreview(URL.createObjectURL(e.target.files[0]))
                                                }}
                                         />
+                                        {errors.image !== '' && errors.image !== 'valid' ?
+                                            <h6 className='invalid-feedback'>{errors.image}</h6> : null}
                                     </div>
                                     {image !== '' ?
                                         < div className="col-lg-12 mb-4">
-                                            < img src={preview} className="img-thumbnail" alt="image"/>
+                                            < img src={preview} className="img-thumbnail" alt=""/>
                                         </div> : ''
                                     }
 

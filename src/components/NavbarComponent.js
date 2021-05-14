@@ -5,8 +5,6 @@ const NavbarComponent = () => {
     const history = useHistory();
     const pathName = useLocation().pathname;
     const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")))
-    const [searchText, setSearchText] = useState('');
-
 
     const handleLogout = useCallback(async () => {
         const data = await (await fetch(`${process.env.REACT_APP_API_URL}/logout`, {
@@ -20,11 +18,6 @@ const NavbarComponent = () => {
             history.push("/")
         }
     }, [])
-
-    const handleSearch = (e) => {
-        e.preventDefault();
-        console.log(searchText)
-    }
 
     useEffect(() => {
         const now = new Date().getTime();

@@ -12,7 +12,6 @@ const Post = () => {
     const {slug} = useParams();
     const history = useHistory()
     const [post, setPost] = useState({});
-    const [user, setUser] = useState({});
     const [following, setFollowing] = useState(false);
     const [deleted, setDeleted] = useState(false)
 
@@ -112,7 +111,6 @@ const Post = () => {
             .then(data => {
                 if (data.post) {
                     setPost(data.post)
-                    setUser(data.user)
 
                     if (data.user.followings.indexOf(data.post.owner._id) !== -1)
                         setFollowing(true);

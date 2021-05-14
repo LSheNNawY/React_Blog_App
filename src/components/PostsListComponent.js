@@ -70,15 +70,12 @@ const PostsListComponent = () => {
                 <div className="container" style={{height: window.screen.height}}>
                     <div className="row" style={{minHeight: '70%'}}>
                         {
-                            posts.length > 0 ?
-                                posts.map(post => <PostComponent data={post} key={post._id}/>) :
-                                <h2 className="text-center w-100 m-5">No posts 🙄</h2>
+                            posts.map(post => <PostComponent data={post} key={post._id}/>)
                         }
                     </div>
                     {/* Pagination */}
                     <nav aria-label="Page navigation example">
-                        <ul className="pagination pagination-template d-flex justify-content-center">
-
+                        <ul className="pagination pagination-template d-flex justify-content-center mb-3">
                             <li className={`page-item  ${pageNumber === 0 ? 'disabled' : ''}`}>
                                 <a href="" className={`page-link`} onClick={(e) => prevPage(e)}>
                                     <i className="fa fa-angle-left"></i>
