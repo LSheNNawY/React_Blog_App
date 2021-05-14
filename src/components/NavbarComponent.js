@@ -33,8 +33,13 @@ const NavbarComponent = () => {
     return (
         <nav className="navbar navbar-expand-lg">
             <div className="container">
+                <div className="fixed-top" style={{ width: '15%'}}>
+                    <img src="/img/palas.png" alt="" className="w-100"/>
+                </div>
                 <div className="navbar-header d-flex align-items-center justify-content-between">
-                    <Link to="/" className="navbar-brand"><i className="fa fa-2x fa-newspaper-o"></i> Blogy</Link>
+                    <Link to="/" className="navbar-brand">
+                        <i className="fa fa-2x fa-newspaper-o"></i>
+                        Bloggy</Link>
                     <button type="button" data-toggle="collapse" data-target="#navbarcollapse"
                             aria-controls="navbarcollapse" aria-expanded="false" aria-label="Toggle navigation"
                             className="navbar-toggler"><span></span><span></span><span></span></button>
