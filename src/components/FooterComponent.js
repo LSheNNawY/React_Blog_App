@@ -7,7 +7,7 @@ const FooterComponent = () => {
                 <div className="row">
                     <div className="col-md-4">
                         <div className="logo">
-                            <h6 className="text-white">Blogy website</h6>
+                            <h6 className="text-white">Bloggy website</h6>
                         </div>
                         <div className="contact-details">
                             <p>Egypt</p>

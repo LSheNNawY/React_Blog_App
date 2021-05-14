@@ -66,43 +66,40 @@ const PostsListComponent = () => {
                 </div>
             </nav>
             <main className="posts-listing col-lg-10 m-auto">
-
-                <div className="container" style={{height: window.screen.height}}>
-                    <div className="row" style={{minHeight: '70%'}}>
-                        {
-                            posts.map(post => <PostComponent data={post} key={post._id}/>)
-                        }
-                    </div>
-                    {/* Pagination */}
-                    <nav aria-label="Page navigation example">
-                        <ul className="pagination pagination-template d-flex justify-content-center mb-3">
-                            <li className={`page-item  ${pageNumber === 0 ? 'disabled' : ''}`}>
-                                <a href="" className={`page-link`} onClick={(e) => prevPage(e)}>
-                                    <i className="fa fa-angle-left"></i>
-                                </a>
-                            </li>
-
-                            {
-                                pages.map(pageIndex => (
-                                    <li className="page-item" key={pageIndex}>
-                                        <a href="" className={`page-link ${pageNumber === pageIndex ? 'active' : ''}`}
-                                           onClick={(e) => {
-                                               e.preventDefault()
-                                               setPageNumber(pageIndex)
-                                           }}>{pageIndex + 1}
-                                        </a>
-                                    </li>
-                                ))
-                            }
-
-                            <li className={`page-item  ${pageNumber >= totalPages - 1 ? 'disabled' : ''}`}>
-                                <a href='' className="page-link" onClick={(e) => nextPage(e)}>
-                                    <i className="fa fa-angle-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                <div className="row" style={{minHeight: '70%'}}>
+                    {
+                        posts.map(post => <PostComponent data={post} key={post._id}/>)
+                    }
                 </div>
+                {/* Pagination */}
+                <nav aria-label="Page navigation example">
+                    <ul className="pagination pagination-template d-flex justify-content-center mb-3">
+                        <li className={`page-item  ${pageNumber === 0 ? 'disabled' : ''}`}>
+                            <a href="" className={`page-link`} onClick={(e) => prevPage(e)}>
+                                <i className="fa fa-angle-left"></i>
+                            </a>
+                        </li>
+
+                        {
+                            pages.map(pageIndex => (
+                                <li className="page-item" key={pageIndex}>
+                                    <a href="" className={`page-link ${pageNumber === pageIndex ? 'active' : ''}`}
+                                       onClick={(e) => {
+                                           e.preventDefault()
+                                           setPageNumber(pageIndex)
+                                       }}>{pageIndex + 1}
+                                    </a>
+                                </li>
+                            ))
+                        }
+
+                        <li className={`page-item  ${pageNumber >= totalPages - 1 ? 'disabled' : ''}`}>
+                            <a href='' className="page-link" onClick={(e) => nextPage(e)}>
+                                <i className="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </main>
         </>
     );
