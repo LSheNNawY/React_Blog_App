@@ -100,7 +100,7 @@ const NavbarComponent = () => {
                                 </span>
 
                                 :
-                                <li className="nav-item"><Link to="/login" className="nav-link">Login</Link>
+                                <li className="nav-item"><Link to="/login" className="nav-link">Login | Register</Link>
                                 </li>
                         }
                     </ul>

@@ -36,7 +36,7 @@ const MyPosts = () => {
 
         <div>
             <NavbarComponent/>
-            <div className="container"  style={{minHeight: window.screen.height / 2}}>
+            <div className="container" style={{minHeight: window.screen.height / 2}}>
                 <div className="row justify-content-center">
                     <main className="posts-listing col-lg-12">
                         <div className="container">

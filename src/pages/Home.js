@@ -7,7 +7,7 @@ const Home = () => {
     return (
         <div>
             <NavbarComponent/>
-            <div className="container">
+            <div className="container" style={{minHeight: window.screen.height / 2}}>
                 <div className="row">
                     <PostsListComponent/>
                 </div>
